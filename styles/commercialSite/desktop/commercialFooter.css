@@ -1,0 +1,10 @@
+#footerContainer{
+    background-color: gray;
+    text-align: center;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 0;
+    right: 0;
+}
+

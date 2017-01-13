@@ -4,26 +4,41 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Jan 6, 2017, 2:01:18 PM
+    Created on : Jan 11, 2017, 6:39:09 PM
     Author     : Naylo
 */
-html{
-    padding-top: 0px;
-    margin-top: 0px;
+
+* {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+    }
+    html{
+    padding: 0px;
+    margin: 0px;
+}
+body{
+    margin: 0px;
 }
 #header{
     list-style: none;
     display: inline;
     margin: 0px;
     padding: 0px;
-}
-#headerContainer{
     margin-left: auto;
     margin-right: auto;
+}
+#headerContainer{
     margin-top: 0px;
     background-color: gray;
     padding: 0px;
     position: fixed;
+    top: 0;
+    right: 0;
 }
 #bodyContainer{
     margin-left: auto;
@@ -42,10 +57,20 @@ html{
     float: right;
     margin: 0px;
     text-align: center;
+    padding-left: 5px;
 }
 #headerImageSquare{
     width: auto;
     float: right;
     margin: 0px;
     text-align: center;
+}
+#headerHolder{
+    margin-left: auto;
+    margin-right: auto;
+}
+#navaOptions{
+    
+    list-style: none;
+    display: inline;
 }
