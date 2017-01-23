@@ -7,20 +7,23 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 
     $isMobile = TRUE;
 }
-
 require_once 'phpIncludes/dbIncludes/conectvars.php';
-        $contactCardQuery = "SELECT title, name, phonenumber, email, description FROM contactcards WHERE idsite = '" . $idSite . "'";
-$contactCardResults = mysqli_query($link, $contactCardQuery);
+$siteQuery = "SELECT idsites FROM sites WHERE domain = '" . $_SERVER['HTTP_HOST'] . "'";
+$siteResult = mysqli_query($link, $siteQuery);
+        $showcaseItemQuery = "SELECT title, date, description, image FROM showcaseitems WHERE idsite = '" . $idSite . "'";
+
+$showcaseItemResults = mysqli_query($link, $showcaseItemQuery);
 ?>
 <html>
     <head>
         <style>
-            #contactCards{
+            #showcaseItems{
                 margin-left: auto;
                 margin-right: auto;
             }
-            .cardElementList{
-
+            .showcaseElementList{
+                width: 400px;
+                float: right;
                 list-style: none;
             }
         </style>
@@ -31,7 +34,7 @@ $contactCardResults = mysqli_query($link, $contactCardQuery);
         require_once 'phpIncludes/commercialHeaderIncludes/commercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
-        <script src="scripts/commercialSite/desktop/commercialContactBody.js"></script>
+        <script src="scripts/commercialSite/desktop/commercialShowcase.js"></script>
         <script>
             var OnLoadFunctions = [
 <?php
@@ -46,7 +49,7 @@ if (!$isMobile) {
 }
 ?>
 
-            commercialContactBodyOnloadOrResize,
+            commercialShowcaseBodyOnloadOrResize,
                     commercialFooterOnloadOrResize,
             ];
             window.onload = function () {
@@ -62,7 +65,7 @@ if (!$isMobile) {
     <?php
 }
 ?>
-            commercialContactBodyOnloadOrResize,
+            commercialShowcaseBodyOnloadOrResize,
             commercialFooterOnloadOrResize,
             ];
             window.onresize = function () {
@@ -77,32 +80,29 @@ if (!$isMobile) {
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialBody.php';
         ?>
         <div id="bodyContainer">
-            <div id="contactCards">
-                <?php
-                if (mysqli_num_rows($contactCardResults) > 0) {
+            <div id="showcaseItems">
+                                <?php
+                if (mysqli_num_rows($showcaseItemResults) > 0) {
                     // output data of each row
-                    while ($row = mysqli_fetch_assoc($contactCardResults)) {
+                    while ($row = mysqli_fetch_assoc($showcaseItemResults)) {
                         ?>
-                        <div class="contactCard">
-                            <ul class="cardElementList">
-                                <li class="contactName"><span class="contactInfo"><?php echo($row['name']) ?></span></</li>
-                                <li class="contactTitle"><span class="contactInfo"><?php echo($row['title']) ?></span></li>
-                                <li class="contactPhone"><span class="contactInfo"><?php echo($row['phonenumber']) ?></span></li>
-                                <li class="contactEmail"><span class="contactInfo"><?php echo($row['email']) ?></span></li>
-                                <li class="description" id="contactDescription"><?php echo($row['description']) ?></li>
-                            </ul>
-                        </div>
-
+                <div class="showcaseItem">
+                    <img src="<?php echo($row['image']) ?>" class="showcaseImage">
+                    <ul class="showcaseElementList">
+                        <li class="showcaseTitle"><span class="showcaseInfo"><?php echo($row['title']) ?></span></</li>
+                        <li class="showcaseDate"><span class="showcaseInfo"><?php echo($row['date']) ?></span></li>
+                        <li class="showcaseDescription"><?php echo($row['description']) ?></li>
+                    </ul>
+                </div>
+                
                         <?php
                     }
                 }
                 ?>
-
             </div>
         </div>
         <?php
         require_once 'phpIncludes/commercialFooters/commercialFooter.php';
-        mysqli_close($link);
         ?>
     </body>
 </html>

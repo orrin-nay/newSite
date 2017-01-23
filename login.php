@@ -8,9 +8,7 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
     $isMobile = TRUE;
 }
 
-require_once 'phpIncludes/dbIncludes/conectvars.php';
-        $contactCardQuery = "SELECT title, name, phonenumber, email, description FROM contactcards WHERE idsite = '" . $idSite . "'";
-$contactCardResults = mysqli_query($link, $contactCardQuery);
+require_once 'phpIncludes/dbIncludes/conectvars.php';;
 ?>
 <html>
     <head>
@@ -26,12 +24,15 @@ $contactCardResults = mysqli_query($link, $contactCardQuery);
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <meta charset="UTF-8">
+        <meta name="google-signin-client_id" content="474828223133-2sj8ltflmlhqh4236gdthgdsnfbafd78.apps.googleusercontent.com">
         <title>Fancy Sites | Contact</title>
         <?php
         require_once 'phpIncludes/commercialHeaderIncludes/commercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
         <script src="scripts/commercialSite/desktop/commercialContactBody.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="scripts/mainPage/login.js"></script>
         <script>
             var OnLoadFunctions = [
 <?php
@@ -46,12 +47,13 @@ if (!$isMobile) {
 }
 ?>
 
-            commercialContactBodyOnloadOrResize,
+            
                     commercialFooterOnloadOrResize,
+                    loginOnload,
             ];
             window.onload = function () {
-                for (funtionNum = 0; funtionNum < OnLoadFunctions.length; funtionNum++) {
-                    OnLoadFunctions[funtionNum]();
+                for (Num = 0; Num < OnLoadFunctions.length; Num++) {
+                    OnLoadFunctions[Num]();
                 }
             };
             var OnResizeFunctions = [
@@ -62,7 +64,6 @@ if (!$isMobile) {
     <?php
 }
 ?>
-            commercialContactBodyOnloadOrResize,
             commercialFooterOnloadOrResize,
             ];
             window.onresize = function () {
@@ -73,32 +74,30 @@ if (!$isMobile) {
         </script>
     </head>
     <body>
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1112535512192697";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+    
         <?php
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialBody.php';
         ?>
         <div id="bodyContainer">
-            <div id="contactCards">
-                <?php
-                if (mysqli_num_rows($contactCardResults) > 0) {
-                    // output data of each row
-                    while ($row = mysqli_fetch_assoc($contactCardResults)) {
-                        ?>
-                        <div class="contactCard">
-                            <ul class="cardElementList">
-                                <li class="contactName"><span class="contactInfo"><?php echo($row['name']) ?></span></</li>
-                                <li class="contactTitle"><span class="contactInfo"><?php echo($row['title']) ?></span></li>
-                                <li class="contactPhone"><span class="contactInfo"><?php echo($row['phonenumber']) ?></span></li>
-                                <li class="contactEmail"><span class="contactInfo"><?php echo($row['email']) ?></span></li>
-                                <li class="description" id="contactDescription"><?php echo($row['description']) ?></li>
-                            </ul>
-                        </div>
-
-                        <?php
-                    }
-                }
-                ?>
-
-            </div>
+            <form method="post" id="loginOrSignupForm" action="login.php">
+                <div class="error" id="loginOrSignupEmailErrorContainer"></div>
+                <input id="loginOrSignupEmailField" type="email" name="email" placeholder="John.Smith@example.com"><br>
+                <div class="error" id="loginOrSignupPasswordErrorContainer"></div>
+            <input id="loginOrSignupPasswordField" type="password" name="password" placeholder="password"><br>
+            <div id="repeatPasswordContainer"></div>
+            <input id="sumbitButton"type="submit" value="Login" name="submit">
+            </form>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+            <p><a id="signupOrLoginButton" href="">Sign Up</a></p>
         </div>
         <?php
         require_once 'phpIncludes/commercialFooters/commercialFooter.php';

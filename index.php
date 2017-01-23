@@ -10,6 +10,10 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Fancy Sites</title>
 <?php
+
+require_once 'phpIncludes/dbIncludes/conectvars.php';
+
+require_once 'phpIncludes/dbIncludes/conectvars.php';
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>

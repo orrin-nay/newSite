@@ -1,9 +1,8 @@
-function commercialFooterOnloadOrResize(){    
-
+function commercialFooterOnloadOrResize(){  
     document.getElementById("footerContent").style.fontSize = ($(document.getElementById("bodyContainer")).width()/50) + "px";
     document.getElementById("bodyContainer").style.paddingBottom = $("#footerContainer").height() + "px";
     $("#footerContainer").width($(document.getElementById("bodyContainer")).width());
-    if($("#bodyContainer").height() > $(window).height()){
+    if($("html").height() > $(window).height()){
         document.getElementById("footerContainer").style.position = "relative";
     }
     else{

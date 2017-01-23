@@ -7,23 +7,9 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 
     $isMobile = TRUE;
 }
-
-require_once 'phpIncludes/dbIncludes/conectvars.php';
-        $contactCardQuery = "SELECT title, name, phonenumber, email, description FROM contactcards WHERE idsite = '" . $idSite . "'";
-$contactCardResults = mysqli_query($link, $contactCardQuery);
 ?>
 <html>
     <head>
-        <style>
-            #contactCards{
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .cardElementList{
-
-                list-style: none;
-            }
-        </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <meta charset="UTF-8">
         <title>Fancy Sites | Contact</title>
@@ -31,7 +17,7 @@ $contactCardResults = mysqli_query($link, $contactCardQuery);
         require_once 'phpIncludes/commercialHeaderIncludes/commercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
-        <script src="scripts/commercialSite/desktop/commercialContactBody.js"></script>
+        <script src="scripts/commercialSite/desktop/commercialBidsBody.js"></script>
         <script>
             var OnLoadFunctions = [
 <?php
@@ -46,7 +32,6 @@ if (!$isMobile) {
 }
 ?>
 
-            commercialContactBodyOnloadOrResize,
                     commercialFooterOnloadOrResize,
             ];
             window.onload = function () {
@@ -62,7 +47,6 @@ if (!$isMobile) {
     <?php
 }
 ?>
-            commercialContactBodyOnloadOrResize,
             commercialFooterOnloadOrResize,
             ];
             window.onresize = function () {
@@ -77,32 +61,23 @@ if (!$isMobile) {
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialBody.php';
         ?>
         <div id="bodyContainer">
-            <div id="contactCards">
-                <?php
-                if (mysqli_num_rows($contactCardResults) > 0) {
-                    // output data of each row
-                    while ($row = mysqli_fetch_assoc($contactCardResults)) {
-                        ?>
-                        <div class="contactCard">
-                            <ul class="cardElementList">
-                                <li class="contactName"><span class="contactInfo"><?php echo($row['name']) ?></span></</li>
-                                <li class="contactTitle"><span class="contactInfo"><?php echo($row['title']) ?></span></li>
-                                <li class="contactPhone"><span class="contactInfo"><?php echo($row['phonenumber']) ?></span></li>
-                                <li class="contactEmail"><span class="contactInfo"><?php echo($row['email']) ?></span></li>
-                                <li class="description" id="contactDescription"><?php echo($row['description']) ?></li>
-                            </ul>
-                        </div>
-
-                        <?php
-                    }
-                }
-                ?>
-
-            </div>
+            <ul>
+                <li>Square Footage<br> <input name="name" type="number" onchange="calcChanged()"></li>
+                        <li><ul>
+                                <li>
+                                    <input type="radio" name="finish" value="3.14" onchange="calcChanged()"> Broomed
+                                </li>
+                                
+                                <li>
+                                    <input type="radio" name="finish" value="5.13" onchange="calcChanged()"> Stamped
+                                </li>
+                                
+                    </ul></li>
+                    <li id="bidCost">Cost</li>
+            </ul>
         </div>
         <?php
         require_once 'phpIncludes/commercialFooters/commercialFooter.php';
-        mysqli_close($link);
         ?>
     </body>
 </html>
