@@ -7,6 +7,8 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 
     $isMobile = TRUE;
 }
+require_once 'phpIncludes/dbIncludes/conectvars.php';
+require_once 'phpIncludes/dbIncludes/domainid.php';
 ?>
 <html>
     <head>
@@ -18,43 +20,7 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
         <script src="scripts/commercialSite/desktop/commercialBidsBody.js"></script>
-        <script>
-            var OnLoadFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnload,
-    <?php
-} else {
-    ?>
-                commercialHeaderMobileOnload,
-    <?php
-}
-?>
-
-                    commercialFooterOnloadOrResize,
-            ];
-            window.onload = function () {
-                for (funtionNum = 0; funtionNum < OnLoadFunctions.length; funtionNum++) {
-                    OnLoadFunctions[funtionNum]();
-                }
-            };
-            var OnResizeFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnresize,
-    <?php
-}
-?>
-            commercialFooterOnloadOrResize,
-            ];
-            window.onresize = function () {
-                for (funtionNum = 0; funtionNum < OnResizeFunctions.length; funtionNum++) {
-                    OnResizeFunctions[funtionNum]();
-                }
-            };
-        </script>
+        
     </head>
     <body>
         <?php

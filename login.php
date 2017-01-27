@@ -8,7 +8,8 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
     $isMobile = TRUE;
 }
 
-require_once 'phpIncludes/dbIncludes/conectvars.php';;
+require_once 'phpIncludes/dbIncludes/conectvars.php';
+require_once 'phpIncludes/dbIncludes/domainid.php';
 ?>
 <html>
     <head>
@@ -30,48 +31,9 @@ require_once 'phpIncludes/dbIncludes/conectvars.php';;
         require_once 'phpIncludes/commercialHeaderIncludes/commercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
-        <script src="scripts/commercialSite/desktop/commercialContactBody.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <script src="scripts/mainPage/login.js"></script>
-        <script>
-            var OnLoadFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnload,
-    <?php
-} else {
-    ?>
-                commercialHeaderMobileOnload,
-    <?php
-}
-?>
-
-            
-                    commercialFooterOnloadOrResize,
-                    loginOnload,
-            ];
-            window.onload = function () {
-                for (Num = 0; Num < OnLoadFunctions.length; Num++) {
-                    OnLoadFunctions[Num]();
-                }
-            };
-            var OnResizeFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnresize,
-    <?php
-}
-?>
-            commercialFooterOnloadOrResize,
-            ];
-            window.onresize = function () {
-                for (funtionNum = 0; funtionNum < OnResizeFunctions.length; funtionNum++) {
-                    OnResizeFunctions[funtionNum]();
-                }
-            };
-        </script>
+        
     </head>
     <body>
         <div id="fb-root"></div>

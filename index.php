@@ -12,49 +12,10 @@ and open the template in the editor.
 <?php
 
 require_once 'phpIncludes/dbIncludes/conectvars.php';
-
-require_once 'phpIncludes/dbIncludes/conectvars.php';
+require_once 'phpIncludes/dbIncludes/domainid.php';
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialHeaderScripts.php';
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
-         <script>
-            var OnLoadFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnload,
-    <?php
-} else {
-    ?>
-                commercialHeaderMobileOnload,
-    <?php
-}
-?>
-
-                    commercialFooterOnloadOrResize,
-            ];
-            window.onload = function () {
-                for (funtionNum = 0; funtionNum < OnLoadFunctions.length; funtionNum++) {
-                    OnLoadFunctions[funtionNum]();
-                }
-            };
-            var OnResizeFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnresize,
-    <?php
-}
-?>
-
-                    commercialFooterOnloadOrResize,
-            ];
-            window.onresize = function () {
-                for (funtionNum = 0; funtionNum < OnResizeFunctions.length; funtionNum++) {
-                    OnResizeFunctions[funtionNum]();
-                }
-            };
-        </script>
     </head>
     <body>
         <?php

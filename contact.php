@@ -9,7 +9,8 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 }
 
 require_once 'phpIncludes/dbIncludes/conectvars.php';
-        $contactCardQuery = "SELECT title, name, phonenumber, email, description FROM contactcards WHERE idsite = '" . $idSite . "'";
+require_once 'phpIncludes/dbIncludes/domainid.php';
+$contactCardQuery = "SELECT title, name, phonenumber, email, description FROM contactcards WHERE idsite = '" . $idSite . "'";
 $contactCardResults = mysqli_query($link, $contactCardQuery);
 ?>
 <html>
@@ -32,45 +33,6 @@ $contactCardResults = mysqli_query($link, $contactCardQuery);
         require_once 'phpIncludes/commercialFooters/commercialFooterScripts.php';
         ?>
         <script src="scripts/commercialSite/desktop/commercialContactBody.js"></script>
-        <script>
-            var OnLoadFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnload,
-    <?php
-} else {
-    ?>
-                commercialHeaderMobileOnload,
-    <?php
-}
-?>
-
-            commercialContactBodyOnloadOrResize,
-                    commercialFooterOnloadOrResize,
-            ];
-            window.onload = function () {
-                for (funtionNum = 0; funtionNum < OnLoadFunctions.length; funtionNum++) {
-                    OnLoadFunctions[funtionNum]();
-                }
-            };
-            var OnResizeFunctions = [
-<?php
-if (!$isMobile) {
-    ?>
-                commercialHeaderOnresize,
-    <?php
-}
-?>
-            commercialContactBodyOnloadOrResize,
-            commercialFooterOnloadOrResize,
-            ];
-            window.onresize = function () {
-                for (funtionNum = 0; funtionNum < OnResizeFunctions.length; funtionNum++) {
-                    OnResizeFunctions[funtionNum]();
-                }
-            };
-        </script>
     </head>
     <body>
         <?php

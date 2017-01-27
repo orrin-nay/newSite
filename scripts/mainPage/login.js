@@ -20,24 +20,23 @@ function loginOnload() {
                 errorMsg.innerHTML = "Please enter a password.";
                 errorMsg.id = "loginOrSignupPasswordErrorText"
                 document.getElementById("loginOrSignupPasswordErrorContainer").appendChild(errorMsg);
-                
+
             } else if (document.getElementById("loginOrSignupPasswordErrorText").innerHTML != "Please enter a password.") {
-                    document.getElementById("loginOrSignupPasswordErrorText").innerHTML = "Please enter a password."
+                document.getElementById("loginOrSignupPasswordErrorText").innerHTML = "Please enter a password."
             }
             fail = true;
-        }else if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(document.getElementById("loginOrSignupPasswordField").value)) {
+        } else if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/.test(document.getElementById("loginOrSignupPasswordField").value)) {
             if (document.getElementById("loginOrSignupPasswordErrorContainer").childNodes.length == 0) {
                 var errorMsg = document.createElement("p");
                 errorMsg.innerHTML = "Password must have a uper and lower case letter, number, special character, and be at least 8 characters long.";
                 errorMsg.id = "loginOrSignupPasswordErrorText"
                 document.getElementById("loginOrSignupPasswordErrorContainer").appendChild(errorMsg);
-                
+
             } else if (document.getElementById("loginOrSignupPasswordErrorText").innerHTML != "Password must have a uper and lower case letter, number, special character, and be 8 characters long.") {
-                    document.getElementById("loginOrSignupPasswordErrorText").innerHTML = "Password must have a uper and lower case letter, number, special character, and be 8 characters long."
+                document.getElementById("loginOrSignupPasswordErrorText").innerHTML = "Password must have a uper and lower case letter, number, special character, and be 8 characters long."
             }
             fail = true;
-        }
-        else if (signUp && document.getElementById("repeatPasswordInput").value != document.getElementById("loginOrSignupPasswordField").value) {
+        } else if (signUp && document.getElementById("repeatPasswordInput").value != document.getElementById("loginOrSignupPasswordField").value) {
 
             if (document.getElementById("loginOrSignupPasswordErrorContainer").childNodes.length == 0) {
                 var errorMsg = document.createElement("p");
@@ -56,12 +55,12 @@ function loginOnload() {
         }
         if (signUp) {
             if (document.getElementById("repeatPasswordInput").value == document.getElementById("loginOrSignupPasswordField").value) {
-                $.post("loggingIn.php", { email: document.getElementById("loginOrSignupEmailField").value, password: document.getElementById("loginOrSignupPasswordField").value})
-  .done(function( data ) {
-    alert( "Data Loaded: " + data );
-  });
+                sighnUP();
             } else {
             }
+        }
+        else{
+            login();
         }
         return false;
     };
@@ -84,26 +83,38 @@ function loginOnload() {
         }
         return false;
     };
-}function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+}
+function sighnUP() {
+    $.post("userhandlers/signuphandler.php", {email: document.getElementById("loginOrSignupEmailField").value, password: document.getElementById("loginOrSignupPasswordField").value})
+            .done(function (data) {
+                if (data == "1") {
+                    if (document.getElementById("loginOrSignupEmailErrorContainer").childNodes.length == 0) {
+                        var errorMsg = document.createElement("p");
+                        errorMsg.innerHTML = "Email already in use.";
+                        errorMsg.id = "loginOrSignupEmailErrorText"
+                        document.getElementById("loginOrSignupEmailErrorContainer").appendChild(errorMsg);
+                    } else {
+                        document.getElementById("loginOrSignupEmailErrorText").innerHTML = "Email already in use.";
+                    }
+                } else if (data == "0") {
+                    window.location.href = 'dashboard.php';
+                }
+            });
+}
+function login(){
+        $.post("userhandlers/loginhandler.php", {email: document.getElementById("loginOrSignupEmailField").value, password: document.getElementById("loginOrSignupPasswordField").value})
+            .done(function (data) {
+                if (data == "1") {
+                    if (document.getElementById("loginOrSignupEmailErrorContainer").childNodes.length == 0) {
+                        var errorMsg = document.createElement("p");
+                        errorMsg.innerHTML = "Email or passowrd incorrect.";
+                        errorMsg.id = "loginOrSignupEmailErrorText"
+                        document.getElementById("loginOrSignupEmailErrorContainer").appendChild(errorMsg);
+                    } else {
+                        document.getElementById("loginOrSignupEmailErrorText").innerHTML = "Email or password incorrect.";
+                    }
+                } else if (data == "0") {
+                    window.location.href = 'dashboard.php';
+                }
+            });
 }

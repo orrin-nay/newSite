@@ -32,8 +32,8 @@ function commercialHeaderOnload () {
     } else {
         small = false;
     }
-    if ($(window).width() < newScreenSize) {
-        window.onresize();
+    if ($(window).width() <= newScreenSize) {
+        commercialHeaderOnresize();
     } else {
     size = newScreenSize;
     window.onscroll();
@@ -69,7 +69,7 @@ function commercialHeaderOnresize() {
             window.onscroll();
         } else {
             size = newScreenSize;
-                window.onload();
+                commercialHeaderOnload();
             window.onscroll();
         }
     }
