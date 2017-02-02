@@ -1,129 +1,181 @@
-window.onload = function () {
-    $("#addSiteButton").click(function () {
-        addSite();
-    });
-};
 canvasImage = new Image();
 canvasImageHeight = 0;
 canvasImageWidth = 0;
+userSitesJson = "";
+window.onload = function () {
 
+    $("#addSiteButton").click(function () {
+        addSite();
+    });
+    reloadSites()
+};
+function showSites() {
+            var newSiteList = document.createElement("div");
+            newSiteList.id = "siteList";
+            document.getElementById("bodyWraper").appendChild(newSiteList);
+            var sitesHolderList = document.createElement("ul");
+            var newHeader = document.createElement("h1");
+            newHeader.innerHTML = "sites";
+            document.getElementById("siteList").appendChild(newHeader);
+
+            document.getElementById("siteList").appendChild(sitesHolderList);
+            userSitesJson.forEach(function (element) {
+                var newImage = document.createElement("img");
+                newImage.src = "images/uploads/logos/" + element[1];
+                var newListItem = document.createElement("li");
+                newListItem.appendChild(newImage);
+                newListItem.innerHTML += element[2];
+                newListItem.id = "siteNum" + element[0];
+                sitesHolderList.appendChild(newListItem);
+            });
+
+            var newImage = document.createElement("img");
+            newImage.src = "images/plus-button.png";
+            var newListItem = document.createElement("li");
+            newListItem.appendChild(newImage);
+                    $(newImage).click(function () {
+        addSite();
+    });
+            sitesHolderList.appendChild(newListItem);
+}
+
+function reloadSites(){
+    $.ajax({
+        url: "userhandlers/gitsiteshandler.php",
+        dataType: "JSON",
+        success: function (json) {
+            userSitesJson = json;
+            showSites();
+        }
+    });
+}
 function addSite() {
-    $("#SiteList").remove();
+    var s;
+    $("#siteList").remove();
 
+    var registerSiteForm = document.createElement("form");
+    registerSiteForm.id = "registerSiteForm";
+    document.getElementById("bodyWraper").appendChild(registerSiteForm);
 
-    
+var backButton = document.createElement("img");
+    backButton.src = "images/backButton.png";
+    registerSiteForm.appendChild(backButton);
+    backButton.onclick = function(){
+        showSites();
+        $("#registerSiteForm").remove();
+    };
+
     var siteNameHeader = document.createElement("p");
     siteNameHeader.innerHTML = "SiteName";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
+    registerSiteForm.appendChild(siteNameHeader);
+
     var siteName = document.createElement("input");
     siteName.type = "text";
     siteName.id = "siteName";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-    
+    siteName.name = "sitename";
+    registerSiteForm.appendChild(siteName);
+    registerSiteForm.appendChild(document.createElement("br"));
+
     var primaryColorHeader = document.createElement("p");
     primaryColorHeader.innerHTML = "Primary Color";
-    document.getElementsByTagName("body")[0].appendChild(primaryColorHeader);
+    registerSiteForm.appendChild(primaryColorHeader);
 
-    var colorPicker = document.createElement("input");
-    colorPicker.id = "primaryColor";
-    document.getElementsByTagName("body")[0].appendChild(colorPicker);
+    var primaryColorPicker = document.createElement("input");
+    primaryColorPicker.id = "primaryColor";
+    primaryColorPicker.name = "primarycolor";
+    primaryColorPicker.type = "color";
 
-    $(function () {
-        $("#primaryColor").spectrum({
-            flat: false,
-            showInput: true,
-        });
-    });
+    registerSiteForm.appendChild(primaryColorPicker);
     var secondaryColorHeader = document.createElement("p");
     secondaryColorHeader.innerHTML = "Secondary Color";
-    document.getElementsByTagName("body")[0].appendChild(secondaryColorHeader);
+    registerSiteForm.appendChild(secondaryColorHeader);
 
-    var colorPicker = document.createElement("input");
-    colorPicker.id = "secondartColor";
-    document.getElementsByTagName("body")[0].appendChild(colorPicker);
-
-    $(function () {
-        $("#secondartColor").spectrum({
-            flat: false,
-            showInput: true,
-        });
-    });
+    var secondaryColorPicker = document.createElement("input");
+    secondaryColorPicker.id = "secondartColor";
+    secondaryColorPicker.type = "color";
+    secondaryColorPicker.name = "secondarycolor";
+    registerSiteForm.appendChild(secondaryColorPicker);
 
     var logoText = document.createElement("p");
     logoText.innerHTML = "logo";
-    document.getElementsByTagName("body")[0].appendChild(logoText);
+    registerSiteForm.appendChild(logoText);
 
     var imagePicker = document.createElement("input");
     imagePicker.type = "file";
     imagePicker.accept = "image/*";
-    document.getElementsByTagName("body")[0].appendChild(imagePicker);
+    imagePicker.name = "logo";
+    registerSiteForm.appendChild(imagePicker);
 
 
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    registerSiteForm.appendChild(document.createElement("br"));
     var imageCanvas = document.createElement("canvas");
     imageCanvas.width = "200";
     imageCanvas.height = "200";
     imageCanvas.id = "canvas1";
-    document.getElementsByTagName("body")[0].appendChild(imageCanvas);
-    
-    var siteNameHeader = document.createElement("p");
-    siteNameHeader.innerHTML = "Contact name";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
-    var siteName = document.createElement("input");
-    siteName.type = "text";
-    siteName.id = "contactName";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-    
-        var siteNameHeader = document.createElement("p");
-    siteNameHeader.innerHTML = "title";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
-    var siteName = document.createElement("input");
-    siteName.type = "text";
-    siteName.id = "title";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-    
-        var siteNameHeader = document.createElement("p");
-    siteNameHeader.innerHTML = "Phone number";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
-    var siteName = document.createElement("input");
-    siteName.type = "text";
-    siteName.id = "phoneNumber";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-    
-        var siteNameHeader = document.createElement("p");
-    siteNameHeader.innerHTML = "Email";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
-    var siteName = document.createElement("input");
-    siteName.type = "text";
-    siteName.id = "email";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
-    
-        var siteNameHeader = document.createElement("p");
-    siteNameHeader.innerHTML = "Job Descrition";
-    document.getElementsByTagName("body")[0].appendChild(siteNameHeader);
-    
-    var siteName = document.createElement("input");
-    siteName.type = "text";
-    siteName.id = "jobDescription";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    document.getElementsByTagName("body")[0].appendChild(document.createElement("br"));
+    registerSiteForm.appendChild(imageCanvas);
+
+    var contactNameHeader = document.createElement("p");
+    contactNameHeader.innerHTML = "Contact name";
+    registerSiteForm.appendChild(contactNameHeader);
+
+    var contactName = document.createElement("input");
+    contactName.type = "text";
+    contactName.id = "contactName";
+    contactName.name = "contactname";
+    registerSiteForm.appendChild(contactName);
+    registerSiteForm.appendChild(document.createElement("br"));
+
+    var titleHeader = document.createElement("p");
+    titleHeader.innerHTML = "title";
+    registerSiteForm.appendChild(titleHeader);
+
+    var title = document.createElement("input");
+    title.type = "text";
+    title.id = "title";
+    title.name = "title";
+    registerSiteForm.appendChild(title);
+    registerSiteForm.appendChild(document.createElement("br"));
+
+    var phoneNumberHeader = document.createElement("p");
+    phoneNumberHeader.innerHTML = "Phone number";
+    registerSiteForm.appendChild(phoneNumberHeader);
+
+    var phoneNumber = document.createElement("input");
+    phoneNumber.type = "tel";
+    phoneNumber.id = "phoneNumber";
+    phoneNumber.name = "phonenumber";
+    registerSiteForm.appendChild(phoneNumber);
+    registerSiteForm.appendChild(document.createElement("br"));
+
+    var emailHeader = document.createElement("p");
+    emailHeader.innerHTML = "Email";
+    registerSiteForm.appendChild(emailHeader);
+
+    var email = document.createElement("input");
+    email.type = "email";
+    email.id = "email";
+    email.name = "email";
+    registerSiteForm.appendChild(email);
+    registerSiteForm.appendChild(document.createElement("br"));
+
+    var jobDescriptionHeader = document.createElement("p");
+    jobDescriptionHeader.innerHTML = "Job Descrition";
+    registerSiteForm.appendChild(jobDescriptionHeader);
+
+    var jobDescription = document.createElement("input");
+    jobDescription.type = "text";
+    jobDescription.id = "jobDescription";
+    jobDescription.name = "jobdescription";
+    registerSiteForm.appendChild(jobDescription);
+    registerSiteForm.appendChild(document.createElement("br"));
+
     imagePicker.addEventListener("change", function (evt) {
         var canvas = imageCanvas;
         var ctx = imageCanvas.getContext("2d");
         var reader = new FileReader();
         reader.onload = function (event) {
             var img = new Image();
-            var s = new CanvasState(document.getElementById('canvas1'));
+            s = new CanvasState(document.getElementById('canvas1'));
             img.onload = function () {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 canvasImage = img;
@@ -143,13 +195,142 @@ function addSite() {
         };
         reader.readAsDataURL(evt.target.files[0]);
     });
-    
-    var siteName = document.createElement("input");
-    siteName.type = "submit";
-    siteName.id = "submit";
-    document.getElementsByTagName("body")[0].appendChild(siteName);
-    siteName.onclick = function(){
+
+    var submitButton = document.createElement("input");
+    submitButton.type = "submit";
+    submitButton.id = "submit";
+    registerSiteForm.appendChild(submitButton);
+
+    registerSiteForm.onsubmit = function () {
+        var canSend = true;
+        if (siteName.value == "") {
+            siteNameHeader.className = "error";
+            canSend = false;
+        } else {
+            siteNameHeader.className = "";
+
+        }
+
+        if ($("#secondartColor").value == $("#primaryColor").value) {
+            primaryColorHeader.className = "error";
+            secondaryColorHeader.className = "error";
+        } else {
+            primaryColorHeader.className = "";
+            secondaryColorHeader.className = "";
+
+        }
+
+
+        if (imagePicker.value == "") {
+            logoText.className = "error";
+            canSend = false;
+        } else {
+            logoText.className = "";
+
+        }
+
+
+        if (contactName.value == "") {
+            contactNameHeader.className = "error";
+            canSend = false;
+        } else {
+            contactNameHeader.className = "";
+
+        }
+
+
+        if (title.value == "") {
+            titleHeader.className = "error";
+            canSend = false;
+        } else {
+            titleHeader.className = "";
+
+        }
+
+
+        if (phoneNumber.value == "") {
+            phoneNumberHeader.className = "error";
+            canSend = false;
+        } else {
+            phoneNumberHeader.className = "";
+
+        }
+
+
+        if (email.value == "") {
+            emailHeader.className = "error";
+            canSend = false;
+        } else {
+            emailHeader.className = "";
+
+        }
+
+
+        if (jobDescription.value == "") {
+            jobDescriptionHeader.className = "error";
+            canSend = false;
+        } else {
+            jobDescriptionHeader.className = "";
+
+        }
+        try {
+            if (canSend) {
+                var newX = document.createElement("input");
+                newX.type = "hidden";
+                newX.name = "x";
+                newX.value = 0;
+                newX.value = s.shapes[0].x;
+                registerSiteForm.appendChild(newX);
+                var newY = document.createElement("input");
+                newY.type = "hidden";
+                newY.name = "y";
+                newY.value = 0;
+                newY.value = s.shapes[0].y;
+                registerSiteForm.appendChild(newY);
+                var formData = new FormData($(registerSiteForm)[0]);
+                $.ajax({
+                    url: 'userhandlers/registersitehandler.php', //Server script to process data
+                    type: 'POST',
+                    xhr: function () {  // Custom XMLHttpRequest
+                        var myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) { // Check if upload property exists
+                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
+                        }
+                        return myXhr;
+                    },
+                    //Ajax events
+                    beforeSend: beforeSendHandler,
+                    success: completeHandler,
+                    error: errorHandler,
+                    // Form data
+                    data: formData,
+                    //Options to tell jQuery not to process data or worry about content-type.
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            }
+        } catch (e) {
+        }
+        return false;
     };
+}
+function progressHandlingFunction(e) {
+    // if(e.lengthComputable){
+    //    $('progress').attr({value:e.loaded,max:e.total});
+    //}
+}
+function errorHandler(e) {
+
+}
+function beforeSendHandler() {
+
+}
+function completeHandler(e) {
+    if (e == "1") {
+        $("#registerSiteForm").remove();
+    reloadSites();
+    }
 }
 
 

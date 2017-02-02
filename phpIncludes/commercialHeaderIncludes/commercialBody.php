@@ -1,18 +1,22 @@
         <?php
         $mainSiteId = 1;
         $useragent = $_SERVER['HTTP_USER_AGENT'];
-        $headerContactQuery = "SELECT email, phonenumber FROM contactcards WHERE idsite = $idSite and main = 1";
-        
-$headerContactResults = mysqli_query($link, $headerContactQuery);
-$email = '';
-$phone = '';
-                if (mysqli_num_rows($headerContactResults) > 0) {
-                    // output data of each row
-                    while ($row = mysqli_fetch_assoc($headerContactResults)) {
-                        $email = $row['email'];
-                        $phone = $row['phonenumber'];
-                    }
-                }
+        $headerContactSQL = "SELECT email, phonenumber FROM contactcards WHERE idsite = ? and main = 1";
+$headerContactStmt = $link->prepare($headerContactSQL);
+$headerContactStmt->bind_param("s", $idSite);
+$headerContactStmt->execute();
+$headerContactStmt->bind_result($email, $phone);
+$headerContactStmt->fetch();
+$headerContactStmt->close();
+                
+$getLogoSQL = "SELECT logo FROM sites WHERE idsites = ?";
+$getLogoStmt = $link->prepare($getLogoSQL);
+$getLogoStmt->bind_param("s", $idSite);
+$getLogoStmt->execute();
+$getLogoStmt->bind_result($logoPath);
+$getLogoStmt->fetch();
+$getLogoStmt->close();
+$logoPath = "images/uploads/logos/".$logoPath;
         if ($isMobile) {
             ?>
             <div id="headerContainer">
@@ -20,7 +24,7 @@ $phone = '';
                 <ul id="header">
                     <li id="headerContactInfo"><span id="headerPhoneNumber"><?php echo ($phone); ?></span><br>
                         <span id="headerEmail"><?php echo ($email); ?></span></li>
-                    <li id="headerImageSquare"><img src="images/imgres.jpg"></li>
+                    <li id="headerImageSquare"><img src="<?php echo ($logoPath); ?>"></li>
                     
 
                 </ul>
@@ -55,7 +59,7 @@ $phone = '';
                     <li class="headerElement"><a href="showcase.php">Showcase</a></li>
                     <li id="headerContactInfo"><span id="headerPhoneNumber"><?php echo ($phone); ?></span><br>
                         <span id="headerEmail"><?php echo ($email); ?></span></li>
-                    <li id="headerImageSquare"><img src="images/imgres.jpg"></li>
+                    <li id="headerImageSquare"><img src="<?php echo ($logoPath); ?>"></li>
                 </ul>
             </div>
             <?php

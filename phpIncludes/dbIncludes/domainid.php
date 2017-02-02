@@ -6,4 +6,7 @@ $domain = filter_input(INPUT_SERVER, 'HTTP_HOST');
 $siteStmt->execute();
 $siteStmt->bind_result($idSite);
 $siteStmt->fetch();
+if(!empty($siteStmt->error) || empty($idSite)){
+    header( 'Location: http://localhost' ) ;
+}
 $siteStmt->close();

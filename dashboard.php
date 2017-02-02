@@ -2,8 +2,8 @@
 
 <?php
 session_start();
-if(!isset($_SESSION['idUser'])){
-    header( 'Location: login.php' ) ;
+if (!isset($_SESSION['idUser'])) {
+    header('Location: login.php');
 }
 $useragent = $_SERVER['HTTP_USER_AGENT'];
 $isMobile = FALSE;
@@ -19,15 +19,14 @@ require_once 'phpIncludes/dbIncludes/conectvars.php';
         <meta charset="UTF-8">
         <title>Fancy Sites | Dashboard</title>
         <script src="scripts/mainPage/dashboard.js"></script>
-        <script src="plugins/spectrum/spectrum.js"></script>
-        <link href="plugins/spectrum/spectrum.css" rel="stylesheet">
+        <style>
+            .error{
+                color: red;
+            }
+        </style>
     </head>
     <body>
-        <div id="SiteList">
-        <h1>sites</h1>
-        <ul>
-            <li><img id="addSiteButton" src="images/plus-button.png"></li>
-        </ul>
+        <div id="bodyWraper">
         </div>
         <?php
         mysqli_close($link);
