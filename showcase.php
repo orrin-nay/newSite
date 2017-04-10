@@ -9,11 +9,6 @@ if ((preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer
 }
 require_once 'phpIncludes/dbIncludes/conectvars.php';
 require_once 'phpIncludes/dbIncludes/domainid.php';
-$siteQuery = "SELECT idsites FROM sites WHERE domain = '" . $_SERVER['HTTP_HOST'] . "'";
-$siteResult = mysqli_query($link, $siteQuery);
-        $showcaseItemQuery = "SELECT title, date, description, image FROM showcaseitems WHERE idsite = '" . $idSite . "'";
-
-$showcaseItemResults = mysqli_query($link, $showcaseItemQuery);
 ?>
 <html>
     <head>
@@ -29,6 +24,7 @@ $showcaseItemResults = mysqli_query($link, $showcaseItemQuery);
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="scripts/commercialSite/siteManager.js"></script>
         <meta charset="UTF-8">
         <title>Fancy Sites | Contact</title>
         <?php
@@ -42,26 +38,6 @@ $showcaseItemResults = mysqli_query($link, $showcaseItemQuery);
         require_once 'phpIncludes/CommercialHeaderIncludes/CommercialBody.php';
         ?>
         <div id="bodyContainer">
-            <div id="showcaseItems">
-                                <?php
-                if (mysqli_num_rows($showcaseItemResults) > 0) {
-                    // output data of each row
-                    while ($row = mysqli_fetch_assoc($showcaseItemResults)) {
-                        ?>
-                <div class="showcaseItem">
-                    <img src="<?php echo($row['image']) ?>" class="showcaseImage">
-                    <ul class="showcaseElementList">
-                        <li class="showcaseTitle"><span class="showcaseInfo"><?php echo($row['title']) ?></span></</li>
-                        <li class="showcaseDate"><span class="showcaseInfo"><?php echo($row['date']) ?></span></li>
-                        <li class="showcaseDescription"><?php echo($row['description']) ?></li>
-                    </ul>
-                </div>
-                
-                        <?php
-                    }
-                }
-                ?>
-            </div>
         </div>
         <?php
         require_once 'phpIncludes/commercialFooters/commercialFooter.php';

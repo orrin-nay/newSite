@@ -10,36 +10,36 @@ window.onload = function () {
     reloadSites()
 };
 function showSites() {
-            var newSiteList = document.createElement("div");
-            newSiteList.id = "siteList";
-            document.getElementById("bodyWraper").appendChild(newSiteList);
-            var sitesHolderList = document.createElement("ul");
-            var newHeader = document.createElement("h1");
-            newHeader.innerHTML = "sites";
-            document.getElementById("siteList").appendChild(newHeader);
+    var newSiteList = document.createElement("div");
+    newSiteList.id = "siteList";
+    document.getElementById("bodyWraper").appendChild(newSiteList);
+    var sitesHolderList = document.createElement("ul");
+    var newHeader = document.createElement("h1");
+    newHeader.innerHTML = "sites";
+    document.getElementById("siteList").appendChild(newHeader);
 
-            document.getElementById("siteList").appendChild(sitesHolderList);
-            userSitesJson.forEach(function (element) {
-                var newImage = document.createElement("img");
-                newImage.src = "images/uploads/logos/" + element[1];
-                var newListItem = document.createElement("li");
-                newListItem.appendChild(newImage);
-                newListItem.innerHTML += element[2];
-                newListItem.id = "siteNum" + element[0];
-                sitesHolderList.appendChild(newListItem);
-            });
+    document.getElementById("siteList").appendChild(sitesHolderList);
+    userSitesJson.forEach(function (element) {
+        var newImage = document.createElement("img");
+        newImage.src = "images/uploads/logos/" + element[1];
+        var newListItem = document.createElement("li");
+        newListItem.appendChild(newImage);
+        newListItem.innerHTML += element[2];
+        newListItem.id = "siteNum" + element[0];
+        sitesHolderList.appendChild(newListItem);
+    });
 
-            var newImage = document.createElement("img");
-            newImage.src = "images/plus-button.png";
-            var newListItem = document.createElement("li");
-            newListItem.appendChild(newImage);
-                    $(newImage).click(function () {
+    var newImage = document.createElement("img");
+    newImage.src = "images/plus-button.png";
+    var newListItem = document.createElement("li");
+    newListItem.appendChild(newImage);
+    $(newImage).click(function () {
         addSite();
     });
-            sitesHolderList.appendChild(newListItem);
+    sitesHolderList.appendChild(newListItem);
 }
 
-function reloadSites(){
+function reloadSites() {
     $.ajax({
         url: "userhandlers/gitsiteshandler.php",
         dataType: "JSON",
@@ -57,10 +57,10 @@ function addSite() {
     registerSiteForm.id = "registerSiteForm";
     document.getElementById("bodyWraper").appendChild(registerSiteForm);
 
-var backButton = document.createElement("img");
+    var backButton = document.createElement("img");
     backButton.src = "images/backButton.png";
     registerSiteForm.appendChild(backButton);
-    backButton.onclick = function(){
+    backButton.onclick = function () {
         showSites();
         $("#registerSiteForm").remove();
     };
@@ -329,7 +329,7 @@ function beforeSendHandler() {
 function completeHandler(e) {
     if (e == "1") {
         $("#registerSiteForm").remove();
-    reloadSites();
+        reloadSites();
     }
 }
 
